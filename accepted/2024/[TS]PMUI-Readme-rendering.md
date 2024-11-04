@@ -37,7 +37,7 @@ When no README is available we will display a messsage in the README section.
 * README direct download specified in a new resource `ReadmeUriTemplate/6.12.0`.
 * Downloaded nupkg.
 
-#### Nuget API
+#### NuGet API
 ##### RegistrationsBaseUrl/6.12.0
 
 A new version of the [package metadata](https://learn.microsoft.com/en-us/nuget/api/registration-base-url-resource) resource type will be documented which will include the field **ReadmeFileUrl**.
