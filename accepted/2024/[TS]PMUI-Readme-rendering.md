@@ -18,18 +18,22 @@ This enhancement streamlines the user experience and may encourage package autho
 ## Explanation
 ### Functional explanation
 #### PM UI
+![Alt text](https://github.com/NuGet/Home/assets/89422562/81b24877-f12f-4783-905c-4a155d3c7693)
 
-When a package is selected we will determine if a README file exists and if it does we'll render it in the PM UI.
 
 The PM UI will be updated to have tabs for the Package Details and the the README.
 This UX will be displayed for both the Browse and installed tabs.
 It will also be displayed for both the solution level and project level package managers.
-![Alt text](https://github.com/NuGet/Home/assets/89422562/81b24877-f12f-4783-905c-4a155d3c7693)
-Local packages will only be rendered in Installed tab.
-We want to avoid users browsing for packages and only seeing README for packages in the Global Packages Folder. 
 
-When no README is available we will display a messsage in the README section.
+##### README Tab
+This tab is rendered if a remote source available to download the readme or the Installed tab is selected and the selected version is found in the global packages folder.
+This is to ensure that users using the Browse tab will not see the README tab if they do not have a remote source that allows README downloads.
+
+If the README tab is rendered and we do not find a README then a message is rendered encouraging the user to contact the package author to upload a README.
 ![alt text](../../meta/resources/ReadMePMUI/NoReadMeFound.png)
+
+##### Package Details
+This tab is always rendered and contains the package details information along with the Vulnerabilty and Depreciation information. 
 
 ##### README File Sources
 
@@ -108,9 +112,8 @@ This will be a link to download the README and will only be filled if a readme i
     ...
 }
 ```
-##### ReadmeUriTemplate/6.12.0
-
-A new resource `ReadmeUriTemplate/6.12.0` similar to the [ReportAbuseUriTemplate](https://learn.microsoft.com/en-us/nuget/api/report-abuse-resource) resource type which will include a url definition for downloading the README.
+##### ReadmeUriTemplate Resource Type
+A new resource `ReadmeUriTemplate` similar to the [ReportAbuseUriTemplate](https://learn.microsoft.com/en-us/nuget/api/report-abuse-resource) resource type which will include a url definition for downloading the README.
 
 ```json
 {
@@ -119,7 +122,7 @@ A new resource `ReadmeUriTemplate/6.12.0` similar to the [ReportAbuseUriTemplate
         ...,
         {
             "@id": "https://apidev.nugettest.org/v3/flatcontainer/{lower_id}/{lower_version}/readme",
-            "@type": "ReadmeUriTemplate/6.12.0"
+            "@type": "ReadmeUriTemplate/6.13.0"
         },
         ...
     ]
@@ -151,16 +154,13 @@ Create a new implementation of the `INuGetResource` interface, `ReadMeDownloadRe
 This will only be available for sources which have implemented the new `PackageBaseAddress` resource type.
 
 Update `IPackageSearchMetadata` to include the `ReadmeFileUrl` field. 
-`LocalPackageSearchMetadata` will put the location of the readme on the disk in this field. 
-When the field is deserialized the field will contain the value returned from the server if `RegistrationsBaseUrl/6.12.0` is implemented. 
-If only `PackageBaseAddress/6.12.0` is implemented then NuGet.Protocol will populate it with the URL.
+`LocalPackageSearchMetadata` will populate the field with the location of the README, if available, on the local disk.
+When a server implements the new `RegistrationsBaseUrl` resource type, then the `ReadmeFileUrl` field will be returned from the server if a README is available and be deserialized from the response.
+When a server implements the `ReadmeUriTemplate` resource type and `ReadmeFileUrl` is empty, it will be populated with the url to the README. 
 
-Create a utility to download the README. It should be generic so it could be used with other embedded resources, like the icon. It will need to be able to perform authenticated requests to the feed. 
-```C#
-public class EmbeddedFileDownloader {
-    public async Task<Stream> GetEmbeddedFileAsync(Uri fileUri, SourceRepository source, CancellationToken cancellationToken) {...}
-}
-```
+#### Downloading the README
+
+Update the `INuGetPackageFileService` to add a new method for downloading the README. 
 
 ## Drawbacks
 
@@ -170,6 +170,8 @@ So when an upgrade is made we may have to change how we use the control.
 WebView2 controls always render ontop of other controls in the view.
 [Secnario 25254665](https://microsoft.visualstudio.com/Edge/_workitems/edit/25254665).
 PM UI needs to be updated to ensure items don't scroll off screen.
+
+`INuGetPackageFileService` in it's current implementation cannot download files from feeds that require authentication.
 
 ## Rationale and alternatives
 By using an existing control we maintain consistency throughout the IDE and can rely on the owner to fix any bugs with the control.
@@ -208,3 +210,5 @@ Ex. https://www.nuget.org/packages/Newtonsoft.Json#README-body-tab
 Investigate ways for encouraging package owners to publish READMEs through this experience. 
 
 Implement the option for users to opt out of rendering all images from README, similar to outlook with external images.
+
+Update `INuGetPackageFileService` to allow for authenticated feeds.
