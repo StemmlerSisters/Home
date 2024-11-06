@@ -212,3 +212,5 @@ Investigate ways for encouraging package owners to publish READMEs through this 
 Implement the option for users to opt out of rendering all images from README, similar to outlook with external images.
 
 Update `INuGetPackageFileService` to allow for authenticated feeds.
+
+Add caching to avoid downloading the README multiple times for the same URL.
