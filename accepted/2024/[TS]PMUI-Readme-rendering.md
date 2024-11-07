@@ -18,8 +18,8 @@ This enhancement streamlines the user experience and may encourage package autho
 ## Explanation
 ### Functional explanation
 #### PM UI
-![Alt text](https://github.com/NuGet/Home/assets/89422562/81b24877-f12f-4783-905c-4a155d3c7693)
-
+![Alt text](../../meta/resources/ReadMePMUI/ReadmeTab.png)
+![Alt text](../../meta/resources/ReadMePMUI/NoReadmeTab.png)
 
 The PM UI will be updated to have tabs for the Package Details and the the README.
 This UX will be displayed for both the Browse and installed tabs.
@@ -38,11 +38,11 @@ This tab is always rendered and contains the package details information along w
 ##### README File Sources
 
 * ReadmeFileUrl in the [package metadata](https://learn.microsoft.com/en-us/nuget/api/registration-base-url-resource).
-* README direct download specified in a new resource `ReadmeUriTemplate/6.12.0`.
+* README direct download specified in a new resource `ReadmeUriTemplate`.
 * Downloaded nupkg.
 
 #### NuGet API
-##### RegistrationsBaseUrl/6.12.0
+##### New RegistrationsBaseUrl version
 
 A new version of the [package metadata](https://learn.microsoft.com/en-us/nuget/api/registration-base-url-resource) resource type will be documented which will include the field **ReadmeFileUrl**.
 This will be a link to download the README and will only be filled if a readme is available to download.
@@ -56,7 +56,7 @@ This will be a link to download the README and will only be filled if a readme i
         ...,
         {
             "@id": "https://apidev.nugettest.org/v3/registration5-gz-semver2/",
-            "@type": "RegistrationsBaseUrl/6.12.0"
+            "@type": "RegistrationsBaseUrl/6.13.0"
         },
         ...
     ]
@@ -150,8 +150,8 @@ MarkdownPreviewControl = markdownPreview.VisualElement
 ```
 #### Locating the README
 
-Create a new implementation of the `INuGetResource` interface, `ReadMeDownloadResource`.
-This will only be available for sources which have implemented the new `PackageBaseAddress` resource type.
+Create a new implementation of the `INuGetResource` interface, `ReadmeUriTemplateResource`.
+This will only be available for sources which have implemented the new `ReadmeUriTemplate` resource type.
 
 Update `IPackageSearchMetadata` to include the `ReadmeFileUrl` field. 
 `LocalPackageSearchMetadata` will populate the field with the location of the README, if available, on the local disk.
@@ -192,9 +192,9 @@ Ex. https://www.nuget.org/packages/Newtonsoft.Json#README-body-tab
     - The README is spec is written as only accepting MD.
     So we will use the nuspec to determine where the README is and treat it as md, even if the file is actually txt.
 1. What do we show if there is no README defined?
-    - Show the README tab with a message saying there is no README for the selected pacakge/version.
+    - Show the README tab with a message saying there is no README for the selected package/version.
 1. Where do we get the README from when it's not on the disk?
-    - Will document two ways for servers to provide a the readme.
+    - Will document two ways for servers to provide the readme.
     Updating the package metadata to include a link to the readme, and a direct download similar to the way nuspec and nupkg are implemented.
 1. Where are the README files saved in a package?
     - The nuspec defines where to locate the README.
