@@ -186,25 +186,22 @@ nuget.org currently renders the README and our users will expect them to look th
 Ex. https://www.nuget.org/packages/Newtonsoft.Json#README-body-tab
 
 ## Unresolved Questions
-1. ~~Will we show README in the updates tab?~~
-    Yes
-1. ~~What do we show if the package has a README.txt instead of md?~~
-    * The README is spec is written as only accepting MD.
+1. Will we show README in the updates tab?
+    - Yes
+1. What do we show if the package has a README.txt instead of md?
+    - The README is spec is written as only accepting MD.
     So we will use the nuspec to determine where the README is and treat it as md, even if the file is actually txt.
-1. ~~What do we show if there is no README defined?~~
-    * Show the README tab with a message saying there is no README for the selected pacakge/version.
-1. ~~Where do we get the README from when it's not on the disk?~~
+1. What do we show if there is no README defined?
+    - Show the README tab with a message saying there is no README for the selected pacakge/version.
+1. Where do we get the README from when it's not on the disk?
     - Will document two ways for servers to provide a the readme.
     Updating the package metadata to include a link to the readme, and a direct download similar to the way nuspec and nupkg are implemented.
-1. ~~Where are the README files saved in a package?~~
-    - Can use Nuget.Packaging to get README location from nuspec.
-1. ~~What do we want the UX to be when an exception or error occurs while reading a README file?~~
+1. Where are the README files saved in a package?
+    - The nuspec defines where to locate the README.
+1. What do we want the UX to be when an exception or error occurs while reading a README file?
     - Inform the users that an exception occurred. If time permits allow for a retry.
-1. ~~Do we want the README to update whenever a new version is selected for the current package?~~
+1. Do we want the README to update whenever a new version is selected for the current package?
    - Yes.
-<!-- What parts of the proposal do you expect to resolve before this gets accepted? -->
-<!-- What parts of the proposal need to be resolved before the proposal is stabilized? -->
-<!-- What related issues would you consider out of scope for this proposal but can be addressed in the future? -->
 
 ## Future Possibilities
 Investigate ways for encouraging package owners to publish READMEs through this experience. 
