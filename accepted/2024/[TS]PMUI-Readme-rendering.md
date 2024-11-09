@@ -17,15 +17,15 @@ This enhancement streamlines the user experience and may encourage package autho
 
 ## Explanation
 ### Functional explanation
-#### PM UI
-![Alt text](../../meta/resources/ReadMePMUI/ReadmeTab.png)
-![Alt text](../../meta/resources/ReadMePMUI/NoReadmeTab.png)
 
 The PM UI will be updated to have tabs for the Package Details and the the README.
 The README will be available in all the PM UI tabs.
 It will also be displayed for both the solution level and project level package managers.
 
-##### README Tab
+![Alt text](../../meta/resources/ReadMePMUI/ReadmeTab.png)
+![Alt text](../../meta/resources/ReadMePMUI/NoReadmeTab.png)
+
+#### README Tab
 This tab is rendered if a remote source available to download the readme or the Installed tab is selected and the selected version is found in the global packages folder.
 This is to ensure that users using the Browse tab will not see the README tab if they do not have a remote source that allows README downloads.
 
@@ -34,18 +34,32 @@ If the README tab is rendered and we do not find a README then a message is rend
 
 If there is an error rendering the README then a message will be displayed for the users.  
 
-##### Package Details
+#### Package Details
 This tab is always rendered and contains the package details information along with the Vulnerabilty and Depreciation information. 
 
-##### README File Sources
+#### README File Sources
 
 * ReadmeFileUrl in the [package metadata](https://learn.microsoft.com/en-us/nuget/api/registration-base-url-resource).
 * README direct download specified in a new resource `ReadmeUriTemplate`.
 * Downloaded nupkg.
 
-#### NuGet API
-##### ReadmeUriTemplate Resource Type
-A new resource `ReadmeUriTemplate` similar to the [ReportAbuseUriTemplate](https://learn.microsoft.com/en-us/nuget/api/report-abuse-resource) resource type which will include a url definition for downloading the README.
+### Technical explanation
+#### Rendering Markdown
+
+We will use the `IMarkdownPreview` control to render the README in the IDE.
+
+#### Locating the README
+
+Create a new implementation of the `INuGetResource` interface, `ReadmeUriTemplateResource`.
+This will only be available for sources which have implemented the new `ReadmeUriTemplate` resource type.
+
+Update `IPackageSearchMetadata` to include the `ReadmeFileUrl` field. 
+`LocalPackageSearchMetadata` will populate the field using the README location specified in the package nuspec. If the README is defined as a text file it will be rendered as if it were markdown.
+When a server implements the new `RegistrationsBaseUrl` resource type, then the `ReadmeFileUrl` field will be returned from the server if a README is available and be deserialized from the response.
+When a server implements the `ReadmeUriTemplate` resource type and `ReadmeFileUrl` is empty, it will be populated with the url to the README. 
+
+#### ReadmeUriTemplate Resource Type
+The `ReadmeUriTemplate` resource type will be similar to the [ReportAbuseUriTemplate](https://learn.microsoft.com/en-us/nuget/api/report-abuse-resource) resource type and will provide a template for generating the README URL. 
 
 ```json
 {
@@ -62,10 +76,9 @@ A new resource `ReadmeUriTemplate` similar to the [ReportAbuseUriTemplate](https
 ```
 In code we would take the id provided and replace the {lower_id} and {lower_version} in the strings with the package we are trying to get the README for.
 
-##### New RegistrationsBaseUrl version
-
-A new version of the [package metadata](https://learn.microsoft.com/en-us/nuget/api/registration-base-url-resource) resource type will be documented which will include the field **ReadmeFileUrl**.
-This will be a link to download the README and will only be filled if a readme is available to download.
+#### New RegistrationsBaseUrl version
+The new version of the [package metadata](https://learn.microsoft.com/en-us/nuget/api/registration-base-url-resource) resource type will include the **ReadmeFileUrl** field.
+This will be a URL for downloading the README and will only be filled if a README is available to download.
 
 index.json
 
@@ -132,21 +145,6 @@ Example Response
     ...
 }
 ```
-
-### Technical explanation
-#### Rendering Markdown
-
-We will use the `IMarkdownPreview` control to render the README in the IDE.
-
-#### Locating the README
-
-Create a new implementation of the `INuGetResource` interface, `ReadmeUriTemplateResource`.
-This will only be available for sources which have implemented the new `ReadmeUriTemplate` resource type.
-
-Update `IPackageSearchMetadata` to include the `ReadmeFileUrl` field. 
-`LocalPackageSearchMetadata` will populate the field using the README location specified in the package nuspec. If the README is defined as a text file it will be rendered as if it were markdown.
-When a server implements the new `RegistrationsBaseUrl` resource type, then the `ReadmeFileUrl` field will be returned from the server if a README is available and be deserialized from the response.
-When a server implements the `ReadmeUriTemplate` resource type and `ReadmeFileUrl` is empty, it will be populated with the url to the README. 
 
 #### Downloading the README
 
