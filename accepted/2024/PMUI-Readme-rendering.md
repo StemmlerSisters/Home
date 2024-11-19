@@ -160,7 +160,7 @@ WebView2 controls always render ontop of other controls in the view.
 [Secnario 25254665](https://microsoft.visualstudio.com/Edge/_workitems/edit/25254665).
 PM UI needs to be updated to ensure items don't scroll off screen.
 
-`INuGetPackageFileService` in it's current implementation cannot download files from feeds that require authentication.
+`INuGetPackageFileService` in its current implementation cannot download files from feeds that require authentication.
 
 ## Rationale and alternatives
 ### Using `IMarkdownPreview`
