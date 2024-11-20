@@ -15,7 +15,7 @@ The Visual Studio (VS) IDE team is responsible for the UI controls, and individu
 
 <!-- Why are we doing this? What pain points does this solve? What is the expected outcome? -->
 
-The Visual Studio Editor team created Unified Settings to make the configuration experience have a Consistent UI, scoping capabilities, and the ability to share and sync settings across devices.
+The Visual Studio IDE team created Unified Settings to make the configuration experience have a Consistent UI, scoping capabilities, and the ability to share and sync settings across devices.
 A blog was published to expand on this motivation and collect feedback from the community, [Unified Settings: Share Your Feedback](https://devblogs.microsoft.com/visualstudio/unifiedsettings/).
 This is currently a VS Preview-only feature.
 
@@ -58,11 +58,15 @@ The mockup below shows the button and the effect of pressing it:
 
 #### Error messages
 
-When the `NuGet.Config` has an invalid value, the UI will show a blank selection, or unchecked checkbox, and will be accompanied by a simple error message indicating that the value in the backing store was somehow invalid.
+When the `NuGet.Config` has an invalid value, the UI will show a blank selection, or an indeterminate state checkbox, and will be accompanied by a simple error message indicating that the value in the backing store was somehow invalid.
 
 Any action taken inside the USX page will overwrite that invalid value in the backing store (`NuGet.Config`) according to `NuGet.Configuration`.
 
-For any fatal errors, such as unable to load the `NuGet.Config` at all due to parsing errors, or similar, then an error message will be shown under the "General" section label.
+For any fatal errors, such as unable to load the `NuGet.Config` at all due to parsing errors, or similar, the following will occur:
+
+- An error message will be shown under the "General" section label.
+- All the edit controls in the section become disabled; the user cannot interact with them while in an error state.
+- The error state can be cleared by if the `NuGet.Config` is modified externally to VS.
 
 #### Help icons
 
