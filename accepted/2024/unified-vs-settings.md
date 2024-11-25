@@ -86,7 +86,7 @@ The `registration.json` will use the `"type": "external"` mode because our produ
 
 ### Command: Clear Local Resources
 
-NuGet.Client will create a new modal dialog will be developed to indicate that the Clear Local Resources command is in-progress and has completed.
+NuGet.Client will create a new modal dialog to indicate that the Clear Local Resources command is in-progress and has completed.
 The modal dialog will replace our WinForms controls that indicate the same information.
 
 Since USX doesn't support dynamically changing text blocks, the modal is the simplest and most effective form of UI we can adopt, while also allowing us to expand the capabilities of this command in VS in the future.
