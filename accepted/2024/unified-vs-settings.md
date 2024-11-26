@@ -65,6 +65,10 @@ Any action taken inside the USX page will overwrite that invalid value in the ba
 For any fatal errors, such as unable to load the `NuGet.Config` at all due to parsing errors, or similar, the following will occur:
 
 - An error message will be shown under the "General" section label.
+  > "We're unable to read one or more `NuGet.Config` configuration files in this solution. See `(docs link)` for more information."
+  - The `NuGet.Config` will be a hyperlink button which opens the Configuration Files page of NuGet Settings as it is done with the hyperlink, [Settings are stored in NuGet.Config](#settings-are-stored-in-nugetconfig).
+  The shortcut allows the customer to view all paths to configured nuget.config files and open them in the VS editor easily and correct the issue.
+- A retry button is provided by USX.
 - All the edit controls in the section become disabled; the user cannot interact with them while in an error state.
 - The error state can be cleared by if the `NuGet.Config` is modified externally to VS.
 
