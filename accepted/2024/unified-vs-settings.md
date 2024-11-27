@@ -166,3 +166,4 @@ No questions have been identified.
 
 - `LocalsCommandRunner` could be enhanced to support Cancellation.
 This would allow the modal dialog shown from our USX command to provide a `Cancel` button in case the user decides not to wait on a large delete operation to complete and block usage of VS.
+Considerations need to be made around this cancellation resulting in a partial restore and its effect on No-Op restore (see https://github.com/NuGet/Home/issues/13191).
