@@ -29,8 +29,19 @@ It will also be displayed for both the solution level and project level package 
 This tab is rendered if a remote source available to download the readme or the Installed tab is selected and the selected version is found in the global packages folder.
 This is to ensure that users using the Browse tab will not see the README tab if they do not have a remote source that allows README downloads.
 
-If the README tab is rendered and we do not find a README then a message is rendered encouraging the user to contact the package author to upload a README.
-![alt text](../../meta/resources/ReadMePMUI/NoReadMeFound.png)
+When there is no README available we will display a message to the user in the README tab.
+These messages will display when the selected package does not have an embedded README or the remote sources returns no results for the README. 
+
+When selected package is the latest version: 
+>There is no README available for the selected package. 
+>
+>Only the package maintainer can add a README.
+>If you are not the maintainer, please consider filing an issue or contacting the maintainer to request a README.
+> 
+>For instructions on how to add a README, please visit [aka.ms/nuget/readme](https://aka.ms/nuget/readme).
+
+When selected package isn't the latest version:
+>There is no README available for the selected package version, please consider checking the latest version.
 
 If there is an error rendering the README then a message will be displayed for the users.  
 
