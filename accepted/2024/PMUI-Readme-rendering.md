@@ -22,6 +22,9 @@ The PM UI will be updated to have tabs for the Package Details and the the READM
 The README will be available in all the PM UI tabs.
 It will also be displayed for both the solution level and project level package managers.
 
+The selected tab will be maintained between sessions and when switching packages. 
+If the README tab is removed, then the "Package Details" tab will automatically selected.
+
 ![Alt text](../../meta/resources/ReadMePMUI/ReadmeTab.png)
 ![Alt text](../../meta/resources/ReadMePMUI/NoReadmeTab.png)
 
@@ -30,7 +33,7 @@ This tab is rendered if a remote source available to download the readme or the 
 This is to ensure that users using the Browse tab will not see the README tab if they do not have a remote source that allows README downloads.
 
 When there is no README available we will display a message to the user in the README tab.
-These messages will display when the selected package does not have an embedded README or the remote sources returns no results for the README. 
+These messages will display when the selected package does not have an embedded README or the remote sources returns no results for the README. The selected tab will not change even when the newly selected package does not have an embedded README. 
 
 When selected package is the latest version: 
 >There is no README available for the selected package. 
