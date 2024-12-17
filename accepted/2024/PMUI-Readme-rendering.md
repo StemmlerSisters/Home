@@ -33,18 +33,9 @@ This tab is rendered if a remote source available to download the readme or the 
 This is to ensure that users using the Browse tab will not see the README tab if they do not have a remote source that allows README downloads.
 
 When there is no README available we will display a message to the user in the README tab.
-These messages will display when the selected package does not have an embedded README or the remote sources returns no results for the README. The selected tab will not change even when the newly selected package does not have an embedded README. 
+>There is no README available for the selected package version. For me information please visit [aka.ms/nuget/noreadme](https://aka.ms/nuget/noreadme).
 
-When selected package is the latest version: 
->There is no README available for the selected package. 
->
->Only the package maintainer can add a README.
->If you are not the maintainer, please consider filing an issue or contacting the maintainer to request a README.
-> 
->For instructions on how to add a README, please visit [aka.ms/nuget/readme](https://aka.ms/nuget/readme).
-
-When selected package isn't the latest version:
->There is no README available for the selected package version, please consider checking the latest version.
+The selected tab will not change even when the newly selected package does not have an embedded README. 
 
 If there is an error rendering the README then a message will be displayed for the users.  
 
