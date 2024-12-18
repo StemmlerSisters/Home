@@ -33,7 +33,7 @@ This tab is rendered if a remote source available to download the readme or the 
 This is to ensure that users using the Browse tab will not see the README tab if they do not have a remote source that allows README downloads.
 
 When there is no README available we will display a message to the user in the README tab.
->There is no README available for the selected package version. For me information please visit [aka.ms/nuget/noreadme](https://aka.ms/nuget/noreadme).
+>There is no README available for the selected package version. For more information please visit [aka.ms/nuget/noreadme](https://aka.ms/nuget/noreadme).
 
 The selected tab will not change even when the newly selected package does not have an embedded README. 
 
