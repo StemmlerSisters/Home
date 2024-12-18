@@ -22,8 +22,8 @@ The PM UI will be updated to have tabs for the Package Details and the the READM
 The README will be available in all the PM UI tabs.
 It will also be displayed for both the solution level and project level package managers.
 
-The selected tab will be maintained between sessions and when switching packages. 
-If the README tab is removed, then the "Package Details" tab will automatically selected.
+On the first time loading the PMUI we will default to the README tab, if the README tab isn't available then we will select the Package Details tab.
+The selected tab will be maintained between sessions and when switching packages.
 
 ![Alt text](../../meta/resources/ReadMePMUI/ReadmeTab.png)
 ![Alt text](../../meta/resources/ReadMePMUI/NoReadmeTab.png)
