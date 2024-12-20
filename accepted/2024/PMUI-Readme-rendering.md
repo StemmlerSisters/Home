@@ -39,6 +39,37 @@ The selected tab will not change even when the newly selected package does not h
 
 If there is an error rendering the README then a message will be displayed for the users.  
 
+
+```mermaid
+---
+title: README tab visible?
+---
+flowchart TD
+    A(Which PM UI Tab Selected?)
+    A --> |Browse|B(Source supports downloading README?)
+    B --> |Yes|C(README tab visible)
+    B --> |No|D(README tab hidden)
+    A --> |Install/Update/Consolidate|E(Source supports downloading README?)
+    E --> |Yes|C
+    E --> |No|F(Selected package version is in GPF?)
+    F --> |Yes|C
+    F --> |No|D
+```
+```mermaid
+---
+title: README tab contents?
+---
+flowchart TD
+    A(README tab visible)
+    A --> |Yes|D(Remote README available?)
+    D --> |Yes|E(Source returned README?)
+    E --> |Yes|F(README)
+    E --> |No|G(No README message)
+    D --> |No|H(Embedded README found)
+    H --> |Yes|F
+    H --> |No|G
+```
+
 #### Package Details
 This tab is always rendered and contains the package details information along with the Vulnerabilty and Depreciation information. 
 
