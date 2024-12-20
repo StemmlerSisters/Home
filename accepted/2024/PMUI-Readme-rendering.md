@@ -22,6 +22,9 @@ The PM UI will be updated to have tabs for the Package Details and the the READM
 The README will be available in all the PM UI tabs.
 It will also be displayed for both the solution level and project level package managers.
 
+On the first time loading the PMUI we will default to the README tab, if the README tab isn't available then we will select the Package Details tab.
+The selected tab will be maintained between sessions and when switching packages.
+
 ![Alt text](../../meta/resources/ReadMePMUI/ReadmeTab.png)
 ![Alt text](../../meta/resources/ReadMePMUI/NoReadmeTab.png)
 
@@ -29,10 +32,43 @@ It will also be displayed for both the solution level and project level package 
 This tab is rendered if a remote source available to download the readme or the Installed tab is selected and the selected version is found in the global packages folder.
 This is to ensure that users using the Browse tab will not see the README tab if they do not have a remote source that allows README downloads.
 
-If the README tab is rendered and we do not find a README then a message is rendered encouraging the user to contact the package author to upload a README.
-![alt text](../../meta/resources/ReadMePMUI/NoReadMeFound.png)
+When there is no README available we will display a message to the user in the README tab.
+>There is no README available for the selected package version. For more information please visit [aka.ms/nuget/noreadme](https://aka.ms/nuget/noreadme).
+
+The selected tab will not change even when the newly selected package does not have an embedded README. 
 
 If there is an error rendering the README then a message will be displayed for the users.  
+
+
+```mermaid
+---
+title: README tab visible?
+---
+flowchart TD
+    A(Which PM UI Tab Selected?)
+    A --> |Browse|B(Source supports downloading README?)
+    B --> |Yes|C(README tab visible)
+    B --> |No|D(README tab hidden)
+    A --> |Install/Update/Consolidate|E(Source supports downloading README?)
+    E --> |Yes|C
+    E --> |No|F(Selected package version is in GPF?)
+    F --> |Yes|C
+    F --> |No|D
+```
+```mermaid
+---
+title: README tab contents?
+---
+flowchart TD
+    A(README tab visible)
+    A --> |Yes|D(Remote README available?)
+    D --> |Yes|E(Source returned README?)
+    E --> |Yes|F(README)
+    E --> |No|G(No README message)
+    D --> |No|H(Embedded README found)
+    H --> |Yes|F
+    H --> |No|G
+```
 
 #### Package Details
 This tab is always rendered and contains the package details information along with the Vulnerabilty and Depreciation information. 
